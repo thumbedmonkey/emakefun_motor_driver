@@ -66,4 +66,5 @@
     <string name="signal">信号：</string>
     <string name="Broadcast_package_name">广播包中的名称:</string>
     <string name="Broadcast_package">广播包：</string>
+	<string name="Display_value_of_notification">(此处显示通知的值)</string>
 </resources>

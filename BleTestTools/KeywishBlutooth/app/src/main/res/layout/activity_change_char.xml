@@ -90,7 +90,7 @@
             android:editable="false"
             android:focusable="false"
             android:gravity="top"
-            android:hint="(此处显示通知的值)" />
+            android:hint="@string/Display_value_of_notification" />
     </ScrollView>
 
     <LinearLayout

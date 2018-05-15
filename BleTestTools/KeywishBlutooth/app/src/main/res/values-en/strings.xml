@@ -66,4 +66,5 @@
     <string name="signal">signal：</string>
     <string name="Broadcast_package_name">Broadcast package name:</string>
     <string name="Broadcast_package">Broadcast package：</string>
+	<string name="Display_value_of_notification">(Display the value of the notification)</string>
 </resources>
