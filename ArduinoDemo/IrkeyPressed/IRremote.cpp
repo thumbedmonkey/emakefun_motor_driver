@@ -1,6 +1,6 @@
 
 #include "IRremote.h"
-
+#include "Keymap.h"
 // Provides ISR
 #ifndef __AVR_ATmega32U4__
 #include <avr/interrupt.h>
@@ -9,12 +9,14 @@ volatile irparams_t irparams;
 bool MATCH(uint8_t measured_ticks, uint8_t desired_us)
 {
   // Serial.print(measured_ticks);Serial.print(",");Serial.println(desired_us);
-  return(measured_ticks >= desired_us - (desired_us>>2)-1 && measured_ticks <= desired_us + (desired_us>>2)+1);//判断前后25%的误差
+  return(measured_ticks >= desired_us - (desired_us>>2)-1 && measured_ticks <= desired_us + (desired_us>>2)+1);
 }
 
 ISR(TIMER_INTR_NAME)
 {
-  uint8_t irdata = (uint8_t)digitalRead(8);
+  // Serial.println("ISR");
+   //Serial.println(millis());
+  uint8_t irdata = (uint8_t)digitalRead(irparams.recvpin);
   // uint32_t new_time = micros();
   // uint8_t timer = (new_time - irparams.lastTime)>>6;
   irparams.timer++; // One more 50us tick
@@ -64,7 +66,7 @@ ISR(TIMER_INTR_NAME)
       }
       break;
     case STATE_STOP: // waiting, measuring gap
-      if(millis() - irparams.lastTime > 200)
+      if(millis() - irparams.lastTime > 120)
       {
         irparams.rawlen = 0;
         irparams.timer = 0;
@@ -86,10 +88,10 @@ ISR(TIMER_INTR_NAME)
  * \param[in]
  *   None
  */
-IRremote::IRremote()
+IRremote::IRremote(int pin)
 {
-  pinMode(8,INPUT);
-  irparams.recvpin = 8;
+  pinMode(pin,INPUT);
+  irparams.recvpin = pin;
   // attachInterrupt(INT0, irISR, CHANGE);
   
   irDelayTime = 0;
@@ -99,8 +101,6 @@ IRremote::IRremote()
   irBuffer = "";
   irPressed = false;
   begin();
-  //pinMode(3, OUTPUT);
-  //digitalWrite(3, LOW); // When not sending PWM, we want it low
 }
 
 /**
@@ -136,10 +136,6 @@ void IRremote::begin()
   // initialize state machine variables
   irparams.rawlen = 0;
   irparams.rcvstate = STATE_IDLE;
-
-  // set pin modes
-  // pinMode(2, INPUT);
-  // pinMode(irparams.recvpin, INPUT);
 }
 
 /**
@@ -181,7 +177,7 @@ ErrorStatus IRremote::decode()
   rawlen = irparams.rawlen;
   if (irparams.rcvstate != STATE_STOP)
   {
-    return ERROR;
+     return ERROR;
   }
 
   if (decodeNEC())
@@ -210,6 +206,8 @@ ErrorStatus IRremote::decode()
 // NECs have a repeat only 4 items long
 ErrorStatus IRremote::decodeNEC()
 {
+  static unsigned long repeat_value = 0xFFFFFFFF;
+  static byte repeta_time = 0;
   uint32_t data = 0;
   int offset = 0; // Skip first space
   // Initial mark
@@ -222,12 +220,18 @@ ErrorStatus IRremote::decodeNEC()
   if (rawlen == 3 &&
     MATCH(rawbuf[offset], NEC_RPT_SPACE/50) &&
     MATCH(rawbuf[offset+1], NEC_BIT_MARK/50)) 
-  {
-    bits = 0;
-    // results->value = REPEAT;
-    // Serial.println("REPEAT");
-    decode_type = NEC;
-    return SUCCESS;
+  {  
+     rawbuf[offset] = 0;
+     rawbuf[offset+1] = 0;
+     repeta_time++;
+    // if(repeta_time > 1) {
+        repeta_time = 0;
+        bits = 0;
+        value = repeat_value;
+       // Serial.println("REPEAT");
+        decode_type = NEC;
+        return SUCCESS;
+   //  }
   }
   if (rawlen < (2 * NEC_BITS + 3)) 
   {
@@ -238,6 +242,7 @@ ErrorStatus IRremote::decodeNEC()
   {
     return ERROR;
   }
+  rawbuf[offset] = 0;
   offset++;
   for (int i = 0; i < NEC_BITS; i++)
   {
@@ -245,6 +250,7 @@ ErrorStatus IRremote::decodeNEC()
     {
       return ERROR;
     }
+    rawbuf[offset] = 0;
     offset++;
     if (MATCH(rawbuf[offset], NEC_ONE_SPACE/50))
     {
@@ -265,7 +271,9 @@ ErrorStatus IRremote::decodeNEC()
   // Success
   bits = NEC_BITS;
   value = data;
+  repeat_value = data;
   decode_type = NEC;
+  repeta_time = 0;
   return SUCCESS;
 }
 
@@ -482,7 +490,25 @@ unsigned char IRremote::getCode()
   loop();
   return irRead;
 }
+String IRremote::getKeyMap(byte keycode )
+{
+   byte i;
+   for (i = 0; i < KEY_MAX; i++) {
+        if (irkeymap[i].keycode == keycode)
+         return irkeymap[i].keyname;
+    }
+    return "";
+}
 
+byte IRremote::getIrKey(byte keycode)
+{
+   byte i;
+   for (i = 0; i < KEY_MAX; i++) {
+        if (irkeymap[i].keycode == keycode)
+         return i;
+    }
+    return 0xFF;
+}
 /**
  * \par Function
  *    sendString
@@ -616,8 +642,9 @@ void IRremote::loop()
   else
   {
     if(irRead > 0)
-    {
-      if(millis() - irDelayTime > 200)
+    { 
+     // Serial.println(millis() - irDelayTime);
+      if(millis() - irDelayTime > 0)
       {
         irPressed = false;
         irRead = 0;
@@ -625,7 +652,7 @@ void IRremote::loop()
       }
     }
   }
- // Serial.println(irRead, DEC);
+ // Serial.println(irRead, HEX);
 }
 
 /**

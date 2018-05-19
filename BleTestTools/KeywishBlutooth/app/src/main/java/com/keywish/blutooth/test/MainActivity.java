@@ -3,6 +3,7 @@ package com.keywish.blutooth.test;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -13,8 +14,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.app.AppCompatActivity;
@@ -44,13 +49,24 @@ public class MainActivity extends AppCompatActivity {
     BleDeviceListAdapter mBleDeviceListAdapter;
     boolean isExit;
     Handler handler;
-
+    private int REQUEST_ACCESS_COARSE_LOCATION=1;
     SharedPreferences sharedPreferences;
     Editor editor;
   //  @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(Build.VERSION.SDK_INT>=23){
+            if (ContextCompat.checkSelfPermission(MainActivity.this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        REQUEST_ACCESS_COARSE_LOCATION);
+                if(ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.READ_CONTACTS)) {
+                    Toast.makeText(MainActivity.this,"shouldShowRequestPermissionRationale", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
         Log.d(TAG, "onCreate: ");
         // set no title
         // requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -63,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = getPreferences(0);
         editor = sharedPreferences.edit();
-        init();
         getBleAdapter();
+        init();
         getScanResualt();
         new Thread(new Runnable() {
             @SuppressWarnings("deprecation")

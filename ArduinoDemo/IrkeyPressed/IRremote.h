@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <Arduino.h>
+
 #ifdef ME_PORT_DEFINED
 #endif // ME_PORT_DEFINED
 #ifndef __AVR_ATmega32U4__
@@ -13,7 +14,7 @@
 #define SPACE 1
 #define NEC_BITS 32
 #define USECPERTICK 50  // microseconds per clock interrupt tick
-#define RAWBUF 100 // Length of raw duration buffer
+#define RAWBUF 80 // Length of raw duration buffer
 
 typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
 
@@ -103,28 +104,18 @@ typedef struct {
   unsigned int timer;     // 
   volatile uint8_t rawbuf[RAWBUF]; // raw data
   volatile uint8_t rawlen;         // counter of entries in rawbuf
-} 
-irparams_t;
+} irparams_t;
 
 
 class IRremote
 {
 public:
 
-  IRremote();
-
+  IRremote(int pin);
   ErrorStatus decode();
-  
-
   void begin();
-
-
   void end();
-  
-
   void loop();
-  
-
   boolean keyPressed(unsigned char r);
   // void resume();
    
@@ -133,35 +124,20 @@ public:
   uint8_t bits; // Number of bits in decoded value
   volatile uint8_t *rawbuf; // Raw intervals in .5 us ticks
   int rawlen; // Number of records in rawbuf.
-  
-
   String getString();
-
   unsigned char getCode();
-  
-
-
+  String getKeyMap( byte keycode);
+  byte getIrKey(byte keycode);
   void sendString(String s);
-
   void sendString(float v);
-  
-
   void sendNEC(unsigned long data, int nbits);
- 
   void sendRaw(unsigned int buf[], int len, uint8_t hz);
-
   void enableIROut(uint8_t khz);
-
   void enableIRIn();
- 
   void mark(uint16_t us);
-
   void space(uint16_t us);
-
 private:
- 
   ErrorStatus decodeNEC();
-  
   int16_t irIndex;	
   char irRead;
   char floatString[5];
