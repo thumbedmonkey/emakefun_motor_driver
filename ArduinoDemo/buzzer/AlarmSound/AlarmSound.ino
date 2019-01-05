@@ -1,12 +1,4 @@
-#define EM_MOTOR_SHIELD_BOARD_VERSION 3
-
-#if (EM_MOTOR_SHIELD_BOARD_VERSION > 2)
-    #define BUZZER_PIN 10
-#else
-    #define BUZZER_PIN 9
-#endif
-
-void setup()
+void setup()  
 {  
     pinMode(9,OUTPUT);  
 }  

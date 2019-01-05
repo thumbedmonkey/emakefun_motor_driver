@@ -1,14 +1,7 @@
 #include "IRremote.h"
 
-#define EM_MOTOR_SHIELD_BOARD_VERSION 3
+IRremote ir(8);
 
-#if (EM_MOTOR_SHIELD_BOARD_VERSION > 2)
-    #define IR_PIN 12
-#else
-    #define IR_PIN 8
-#endif
-
-IRremote ir(IR_PIN);
 unsigned char keycode;
 char str[128];
 void setup()

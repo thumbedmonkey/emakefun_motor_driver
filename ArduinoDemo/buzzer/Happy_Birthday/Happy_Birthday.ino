@@ -1,12 +1,3 @@
-#define EM_MOTOR_SHIELD_BOARD_VERSION 3
-
-#if (EM_MOTOR_SHIELD_BOARD_VERSION > 2)
-    #define BUZZER_PIN 10
-#else
-    #define BUZZER_PIN 9
-#endif
-
-
 #define Do 262  
 #define Re 294  
 #define Mi 330  
@@ -24,7 +15,7 @@
 #include "RGBLed.h"
 
 RGBLed rgbled_A3(7,A3); 
-int buzzer = BUZZER_PIN;   // buzzer pin 9
+int buzzer = 9;   // buzzer pin 9
 int length;
 // happy birthday Music score
 int scale[] = {Sol, Sol, La, Sol, Do_h, Si, Sol, Sol,
@@ -61,3 +52,4 @@ void loop()
     }
     delay(3000);
 }
+
