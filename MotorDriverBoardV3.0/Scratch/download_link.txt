@@ -1,0 +1,5 @@
+windows 7and above http://mblock.makeblock.com/mBlock_win_V3.4.11.exe
+windows xp http://download.makeblock.com/mblock/v_3_4_2/mBlock_win_V3.4.2_beta2_20161111.exe
+MacOs http://mblock.makeblock.com/mBlock_mac_V3.4.11.zip
+Linux http://mblockapp.oss-cn-hongkong.aliyuncs.com/mBlock4.0/mBlock_4.0.4_amd64.deb
+ChromeOs https://chrome.google.com/webstore/detail/mblock/cikipehcmeblohaibidanjaelilmdilo
