@@ -122,7 +122,10 @@ class Emakefun_EncoderMotor {
   void run(uint8_t);
   void setSpeed(uint8_t);
   void release(void);
-  void init(FuncPtr encoder_fun); 
+  void init(FuncPtr encoder_fun);
+  void EncoderCallback1(void);
+  void EncoderCallback2(void);
+  static FuncPtr CallBack[2];
  private:
   uint8_t IN1pin, IN2pin, PWMpin , ENCODER1pin, ENCODER2pin;
   uint8_t pluse;

@@ -1,4 +1,5 @@
 #if (ARDUINO >= 100)
+#include "PinChangeInt.h"
 #include "Arduino.h"
 #else
 #include "WProgram.h"
@@ -72,10 +73,31 @@ Emakefun_DCMotor *Emakefun_MotorDriver::getMotor(uint8_t num) {
   return &dcmotors[num];
 }
 
+
+void Emakefun_EncoderMotor::EncoderCallback1(void)
+{
+  (CallBack[0])();
+}
+
+void Emakefun_EncoderMotor::EncoderCallback2(void)
+{
+  (CallBack[1])();
+}
+
 Emakefun_EncoderMotor::Emakefun_EncoderMotor(void) {
    MC = NULL;
    encodernum = 0;
    PWMpin = IN1pin = IN2pin = ENCODER1pin = ENCODER2pin = 0;
+}
+
+void Emakefun_EncoderMotor::init(FuncPtr encoder_fun) {
+    pinMode(ENCODER1pin, INPUT);
+    CallBack[encodernum] = encoder_fun;
+    if (encodernum == 0) {
+      attachPinChangeInterrupt(ENCODER1pin, *(FuncPtr )(&EncoderCallback1), CHANGE);
+    } else if (encodernum == 1) {
+      attachPinChangeInterrupt(ENCODER1pin, *(FuncPtr )(&EncoderCallback2), CHANGE);
+    }
 }
 
 Emakefun_EncoderMotor *Emakefun_MotorDriver::getEncoderMotor(uint8_t num) {
@@ -88,12 +110,12 @@ Emakefun_EncoderMotor *Emakefun_MotorDriver::getEncoderMotor(uint8_t num) {
 
      uint8_t pwm, in1, in2, encoder1pin ,encoder2pin;
     if (num == 0) {
-      pwm = 8; in2 = 9; in1 = 10; encoder1pin = 2; encoder2pin = 7;
+      pwm = 8; in2 = 9; in1 = 10; encoder1pin = 3; encoder2pin = 2;
     } else if (num == 1) {
-      pwm = 13; in2 = 12; in1 = 11;encoder1pin = 2; encoder2pin = 7;
+      pwm = 13; in2 = 12; in1 = 11;encoder1pin = 7; encoder2pin = 4;
     }
     encoder[num].IN1pin = in1;
-    encoder[num].IN2pin = in1;
+    encoder[num].IN2pin = in2;
     encoder[num].PWMpin = pwm;
     encoder[num].ENCODER1pin = encoder1pin;
     encoder[num].ENCODER2pin = encoder2pin;

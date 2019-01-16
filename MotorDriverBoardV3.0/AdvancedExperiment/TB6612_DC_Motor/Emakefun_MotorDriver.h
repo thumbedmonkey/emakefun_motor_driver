@@ -1,10 +1,12 @@
 #ifndef _Emakefun_MotorDriver_h_
 #define _Emakefun_MotorDriver_h_
 
+
 #include <inttypes.h>
 #include <Wire.h>
 #include "SPI.h"
 #include "Emakefun_MS_PWMServoDriver.h"
+
 #include "IRremote.h"
 #include "PS2X_lib.h"  //for v1.6
 #include "Buzzer.h"
@@ -69,6 +71,8 @@ typedef enum
     E_SENSOR_MAX,
 } E_SENSOR_INDEX;
 
+typedef void (*FuncPtr)(void);
+
 class Emakefun_MotorDriver;
 
 class Emakefun_Sensor
@@ -118,7 +122,10 @@ class Emakefun_EncoderMotor {
   void run(uint8_t);
   void setSpeed(uint8_t);
   void release(void);
-
+  void init(FuncPtr encoder_fun);
+  void EncoderCallback1(void);
+  void EncoderCallback2(void);
+  static FuncPtr CallBack[2];
  private:
   uint8_t IN1pin, IN2pin, PWMpin , ENCODER1pin, ENCODER2pin;
   uint8_t pluse;
