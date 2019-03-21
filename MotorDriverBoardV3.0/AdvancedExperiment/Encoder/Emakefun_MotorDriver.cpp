@@ -94,9 +94,17 @@ void Emakefun_EncoderMotor::init(FuncPtr encoder_fun) {
     pinMode(ENCODER1pin, INPUT);
     CallBack[encodernum] = encoder_fun;
     if (encodernum == 0) {
-      attachPinChangeInterrupt(ENCODER1pin, *(FuncPtr )(&EncoderCallback1), CHANGE);
+#if ARDUINO > 10609
+     attachPinChangeInterrupt(ENCODER1pin, *(FuncPtr )(&EncoderCallback1), CHANGE);
+#else
+     attachPinChangeInterrupt(ENCODER1pin, *(FuncPtr )(&Emakefun_EncoderMotor::EncoderCallback1), CHANGE);
+#endif
     } else if (encodernum == 1) {
-      attachPinChangeInterrupt(ENCODER1pin, *(FuncPtr )(&EncoderCallback2), CHANGE);
+#if ARDUINO > 10609
+     attachPinChangeInterrupt(ENCODER1pin, *(FuncPtr )(&EncoderCallback2), CHANGE);
+#else
+     attachPinChangeInterrupt(ENCODER1pin, *(FuncPtr )(&Emakefun_EncoderMotor::EncoderCallback2), CHANGE);
+#endif
     }
 }
 

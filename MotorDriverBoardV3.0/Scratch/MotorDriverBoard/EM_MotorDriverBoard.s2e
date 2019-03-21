@@ -79,6 +79,19 @@
 		],
 		[
 			"w",
+			"encodermotor %d.Emotor println pulse",
+			"println pulse",
+			"1",
+			{
+				"setup":"",
+				"inc":"",
+				"def":"void encoder1(void){ Encoder1Pulse++;\nSerial.println(Encoder1Pulse);}\nvoid encoder2(void){ Encoder2Pulse++;\nSerial.println(Encoder2Pulse);}\n",
+				"work":"EncodeMotor_{0}->init(encoder{0});\n",
+				"loop":""
+			}
+		],
+		[
+			"w",
 			"Set steppermotor %d.Emotor steps %n direction %d.direction style %d.style",
 			"stepperMotor",
 			"1",
@@ -470,6 +483,7 @@
 			"Stop DCmotor %d.motor":"停止直流电机 %d.motor",
 			"Set encodermotor %d.Emotor direction %d.direction speed %d.speed":"转动编码电机 %d.motor 方向 %d.direction 速度 %d.speed",
 			"Stop encodermotor %d.Emotor":"停止编码电机 %d.motor",
+			"encodermotor %d.Emotor println pulse":"编码电机 %d.Emotor 串口打印脉冲数目",
 			"Set steppermotor %d.Emotor steps %n direction %d.direction style %d.style":"转动步进电机 %d.Emotor 步数 %n 方向 %d.direction 方式 %d.style",
 			"SetServo Interface %d.ServoInterface Degree %n":"设置舵机 接口 %d.ServoInterface 角度 %n",
 			"NRF24L01_init":"NRF24L01初始化",
