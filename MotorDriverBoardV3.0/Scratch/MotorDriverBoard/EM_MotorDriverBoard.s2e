@@ -113,10 +113,10 @@
 			"1",
 	        "90",   
 	     {
-		     "setup":"",
+		     "setup":"mMotorDriver.begin(50);",
 		     "inc":"",
-		     "def":"Emakefun_Servo *servo = mMotorDriver.getServo(1, SERVO_PIN);\n",
-		     "work":"servo->writeServo({0});\n",
+		     "def":"Emakefun_Servo *servo{0} = mMotorDriver.getServo({0});\n",
+		     "work":"servo{0}->writeServo({1});\n",
 		     "loop":""		 		  
 		   }
 	],
