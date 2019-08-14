@@ -3,9 +3,9 @@
 #define EM_MOTOR_SHIELD_BOARD_VERSION 3
 
 #if (EM_MOTOR_SHIELD_BOARD_VERSION > 2)
-    #define IR_PIN 12
-#else
     #define IR_PIN 8
+#else
+    #define IR_PIN 12
 #endif
 
 IRremote ir(IR_PIN);

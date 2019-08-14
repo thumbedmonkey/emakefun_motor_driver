@@ -1,9 +1,11 @@
 #define EM_MOTOR_SHIELD_BOARD_VERSION 3
 
 #if (EM_MOTOR_SHIELD_BOARD_VERSION > 2)
-    #define BUZZER_PIN 10
+    #define BUZZER_PIN 9 //buzzer pin 9
+    #define RGB A1      //RGB pin A1
 #else
-    #define BUZZER_PIN 9
+    #define BUZZER_PIN 10
+    #define RGB A3
 #endif
 
 
@@ -23,8 +25,7 @@
 #define Si_h 988
 #include "RGBLed.h"
 
-RGBLed rgbled_A3(7,A3); 
-int buzzer = BUZZER_PIN;   // buzzer pin 9
+RGBLed rgbled_A3(RGB,2); 
 int length;
 // happy birthday Music score
 int scale[] = {Sol, Sol, La, Sol, Do_h, Si, Sol, Sol,
@@ -42,7 +43,7 @@ float durt[]=
 
 void setup()
 {
-    pinMode(buzzer, OUTPUT);
+    pinMode(BUZZER_PIN, OUTPUT);
     // get scale length
     length = sizeof(scale) / sizeof(scale[0]);  
     Serial.begin(9600);
@@ -52,12 +53,13 @@ void loop()
 {
     for(int x = 0; x < length; x++) {
         // Serial.println(scale[x]);
-        tone(buzzer, scale[x]);
-        rgbled_A3.setColor(0, scale[x] - 425, scale[x] - 500, scale[x] - 95);
+        tone(BUZZER_PIN, scale[x]);
+        rgbled_A3.setColor(1, scale[x] - 425, scale[x] - 500, scale[x] - 95);
+        rgbled_A3.setColor(2, scale[x] - 425, scale[x] - 500, scale[x] - 95);
         rgbled_A3.show();
         // 1= 3/4F so one Beats is  187*4 = 748ms
         delay(748 * durt[x]);
-        noTone(buzzer);
+        noTone(BUZZER_PIN);
     }
     delay(3000);
 }
