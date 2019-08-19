@@ -14,14 +14,15 @@
 
 Nrf24l Mirf = Nrf24l(NRF24L01_CE, NRF24L01_CSN);
 String SmartCarName = "MotorDrive";
-int value;
+byte value[12];
 
 void setup()
 {
     Serial.begin(9600);
     Mirf.spi = &MirfHardwareSpi;
     Mirf.init();
-    Mirf.setRADDR((byte *)"MotorDrive"); //Set your own address (receiver address) 
+
+    Mirf.setRADDR((uint8_t *)SmartCarName.c_str()); //Set your own address (receiver address) 
     Mirf.payload = sizeof(value);
     Mirf.channel = 90;             //Set the used channel
     Mirf.config();
@@ -31,8 +32,11 @@ void setup()
 void loop()
 {
   if (Mirf.dataReady()) { //When the program is received, the received data is output from the serial port
-    Mirf.getData((byte *) &value);
+    Mirf.getData(value);
     Serial.print("Got data: ");
-    Serial.println(value);
+      for (int i = 0; i < 12; i++) {
+        Serial.print(value[i], HEX);Serial.print(" ");
+       }
+     Serial.println();
   }
 }

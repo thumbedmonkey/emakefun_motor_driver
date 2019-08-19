@@ -1,5 +1,5 @@
-const int TrigPin = A2;
-const int EchoPin = A3;
+const int TrigPin = A1;
+const int EchoPin = A2;
 float distance;
 void setup() {
 	Serial.begin(9600);

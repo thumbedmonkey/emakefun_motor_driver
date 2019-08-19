@@ -1,5 +1,5 @@
 #include "Adafruit_NeoPixel.h"
-#define RGB_PIN A1
+#define RGB_PIN A3
 #define MAX_LED 2  
  
 int RGB1_val = 0;
@@ -13,7 +13,7 @@ void setup()
     strip.show();
     Serial.begin(9600);
 }
-
+ 
 void loop()
 {
     // write 0 ~ 255  ~ 0 value to RGB1

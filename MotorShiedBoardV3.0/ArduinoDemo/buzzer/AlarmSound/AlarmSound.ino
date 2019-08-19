@@ -6,7 +6,7 @@
     #define BUZZER_PIN 9
 #endif
 
-void setup()  
+void setup()
 {  
     pinMode(9,OUTPUT);  
 }  
