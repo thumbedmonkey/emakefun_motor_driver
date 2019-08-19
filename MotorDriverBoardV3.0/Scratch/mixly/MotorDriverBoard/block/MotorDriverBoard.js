@@ -42,7 +42,18 @@ Blockly.Blocks.md_setup = {
 	this.setTooltip('');
  }
 };
-
+Blockly.Blocks.md_initdcmotor = {
+	init:function(){
+	    this.setColour(Blockly.Blocks.MotorDriverBoard.HUE);
+		this.appendDummyInput("")
+			.appendField(Blockly.MOTORDRIVERBOARD_INITDCMOTOR)
+		   // .appendField(new Blockly.FieldImage("../../media/MotorDriverBoard/md_MotorDriverBoard.png", 38, 32))
+			.appendField(new Blockly.FieldDropdown(MOTORDRIVERBOARD_DCPORTS),"DCPorts")
+		this.setPreviousStatement(true, null);
+		this.setNextStatement(true, null);
+		this.setTooltip('');
+		}
+};
 //第一个图形块的样式,直流电机下拉（下拉没有value），正反转（下拉），速度（输入,有value）
 Blockly.Blocks.md_dcmotor = {
   init: function() {
@@ -69,6 +80,18 @@ Blockly.Blocks.md_stopDCmotor = {
 			.appendField(Blockly.MOTORDRIVERBOARD_STOPDCMOTOR)
 		   // .appendField(new Blockly.FieldImage("../../media/MotorDriverBoard/md_MotorDriverBoard.png", 38, 32))
 			.appendField(new Blockly.FieldDropdown(MOTORDRIVERBOARD_DCPORTS),"DCPorts")
+		this.setPreviousStatement(true, null);
+		this.setNextStatement(true, null);
+		this.setTooltip('');
+		}
+};
+Blockly.Blocks.md_initENmotor = {
+	init:function(){
+	    this.setColour(Blockly.Blocks.MotorDriverBoard.HUE);
+		this.appendDummyInput("")
+			.appendField(Blockly.MOTORDRIVERBOARD_INITENMOTOR)
+		   // .appendField(new Blockly.FieldImage("../../media/MotorDriverBoard/md_MotorDriverBoard.png", 38, 32))
+			.appendField(new Blockly.FieldDropdown(MOTORDRIVERBOARD_ENPORTS),"ENPorts")
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
 		this.setTooltip('');
@@ -105,6 +128,21 @@ Blockly.Blocks.md_stopENmotor = {
 		this.setTooltip('');
 		}
 };
+Blockly.Blocks.md_initstmotor = {
+	init:function(){
+	    this.setColour(Blockly.Blocks.MotorDriverBoard.HUE);
+		this.appendDummyInput("")
+			.appendField(Blockly.MOTORDRIVERBOARD_INITSTMOTOR)
+		   // .appendField(new Blockly.FieldImage("../../media/MotorDriverBoard/md_MotorDriverBoard.png", 38, 32))
+			.appendField(new Blockly.FieldDropdown(MOTORDRIVERBOARD_STPORTS),"STPorts")
+			.appendField(Blockly.MOTORDRIVERBOARD_STEPS);
+	   this.appendValueInput("Steps", Number)
+        .setCheck(Number)
+		this.setPreviousStatement(true, null);
+		this.setNextStatement(true, null);
+		this.setTooltip('');
+		}
+};
 //第五个图形块的样式,步进电机下拉，步数value，方向下拉，方式下拉
 Blockly.Blocks.md_stmotor = {
   init: function() {
@@ -120,10 +158,26 @@ Blockly.Blocks.md_stmotor = {
 	   this.appendValueInput("Steps", Number)
         .setCheck(Number)
         .setAlign(Blockly.ALIGN_RIGHT);
+		this.appendDummyInput("")
+		.appendField(Blockly.MOTORDRIVERBOARD_SPEED)
+		this.appendValueInput("Speed", Number)
+		  .setCheck(Number)
+        .setAlign(Blockly.ALIGN_RIGHT);
 	    this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
         this.setTooltip('');
   }
+};
+Blockly.Blocks.md_initRGB = {
+  init: function(){
+	 this.setColour(Blockly.Blocks.MotorDriverBoard.HUE);
+	 this.appendDummyInput("")
+         .appendField(Blockly.MOTORDRIVERBOARD_INITRGB)	 
+	 	 //.appendField(new Blockly.FieldImage("../../media/MotorDriverBoard/hb_ultrasonic.png", 45, 38))	 
+	this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+ 	
+	}	
 };
 //第六个图形块的样式,rgb
 Blockly.Blocks.md_RGB = {
@@ -140,7 +194,44 @@ Blockly.Blocks.md_RGB = {
  	
 	}	
 };
+//通过模拟值参数设置rgb
+Blockly.Blocks.md_setColor = {
+  init: function(){
+	 this.setColour(Blockly.Blocks.MotorDriverBoard.HUE);
+	 this.appendDummyInput("")
+         .appendField(Blockly.MOTORDRIVERBOARD_SETRGB)	 
+	 	 //.appendField(new Blockly.FieldImage("../../media/MotorDriverBoard/hb_ultrasonic.png", 45, 38))	 
+         .appendField(new Blockly.FieldDropdown(MOTORDRIVERBOARD_RGBNUMBER), "RGB")	 
+	     .appendField(Blockly.MOTORDRIVERBOARD_RGBCOLOUR)		 
+		this.appendValueInput("red", Number)
+		.appendField(Blockly.MOTORDRIVERBOARD_RED)
+        .setCheck(Number)
+        .setAlign(Blockly.ALIGN_RIGHT);		
+		this.appendValueInput("green", Number)
+		.appendField(Blockly.MOTORDRIVERBOARD_GREEN)
+        .setCheck(Number)
+        .setAlign(Blockly.ALIGN_RIGHT);
+		this.appendValueInput("blue", Number)
+		.appendField(Blockly.MOTORDRIVERBOARD_BLUE)
+        .setCheck(Number)
+        .setAlign(Blockly.ALIGN_RIGHT);
+	this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+ 	
+	}	
+};
 //第七个图形块的样式,播放声音 下拉
+Blockly.Blocks.md_initSounds = {
+ init:function(){
+	 this.setColour(Blockly.Blocks.MotorDriverBoard.HUE);
+	 this.appendDummyInput("")        
+		// .appendField(new Blockly.FieldImage("../../media/MotorDriverBoard/md_MotorDriverBoard.png", 38, 32))
+		 .appendField(Blockly.MOTORDRIVERBOARD_INITSOUNDS)
+	this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip('');
+ }
+};
 Blockly.Blocks.md_playSounds = {
  init:function(){
 	 this.setColour(Blockly.Blocks.MotorDriverBoard.HUE);
@@ -290,17 +381,7 @@ Blockly.Blocks.md_WhichPS2KeyPressed = {
 	this.setTooltip('');
   }
 };
-//第十九个图形块的样式 设置PS2摇杆震动值
-Blockly.Blocks.md_setps2vibrate = {
- init:function(){
-	this.setColour(Blockly.Blocks.MotorDriverBoard.HUE);
-    this.appendDummyInput("")
-	    .appendField(Blockly.MOTORDRIVERBOARD_SETPS2VIBRATE)
-	this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setTooltip('');
- }
-};
+
 //第二十个图形块的样式 ps2手柄按下（下拉）
 Blockly.Blocks.md_ps2keypress = {
   init:function(){
@@ -350,6 +431,18 @@ Blockly.Blocks.md_ps2status = {
  }
 };
 //第二十三个图形块的样式 舵机 接口下拉  角度value
+Blockly.Blocks.md_initservo = {
+ init:function(){
+	this.setColour(Blockly.Blocks.MotorDriverBoard.HUE);
+    this.appendDummyInput("")
+	    .appendField(Blockly.MOTORDRIVERBOARD_INITSERVO)
+		.appendField(new Blockly.FieldDropdown(MOTORDRIVERBOARD_SERVOPORTS), "Servoports")
+	    //.appendField(new Blockly.FieldImage("../../media/MotorDriverBoard/md_irtracking.png", 38, 32))
+	this.setPreviousStatement(true,null);
+    this.setNextStatement(true,null);   
+	this.setTooltip('');
+ }
+};
 Blockly.Blocks.md_servo = {
  init:function(){
 	this.setColour(Blockly.Blocks.MotorDriverBoard.HUE);
@@ -365,4 +458,16 @@ Blockly.Blocks.md_servo = {
     this.setNextStatement(true,null);   
 	this.setTooltip('');
  }
+};
+//读取舵机角度
+Blockly.Blocks.md_readservo= {
+  init:function(){
+	this.setColour(Blockly.Blocks.MotorDriverBoard.HUE);  
+	this.appendDummyInput("")
+	    .appendField(Blockly.MOTORDRIVERBOARD_SERVOPORT)
+		.appendField(new Blockly.FieldDropdown(MOTORDRIVERBOARD_SERVOPORTS), "Servoports")
+		.appendField(Blockly.MOTORDRIVERBOARD_READDEGEREES)
+	this.setOutput(true, Number);
+	this.setTooltip('');
+  }
 };

@@ -5,6 +5,7 @@
 
 <!--第0个图形块：MotorDriverBoard初始化-->
 		 <block type="md_setup"></block>	
+		  <block type="md_initdcmotor"></block>
 <!--第一个图形块：直流电机下拉（下拉没有value），正反转（下拉），速度（输入,有value）-->
 	    <block type="md_dcmotor">
 			<value name="Speed">
@@ -13,8 +14,10 @@
 				</shadow>
 			</value>
 	    </block>
+		
 <!--第二个图形块：停止直流电机 下拉（下拉没有value）-->
 		<block type="md_stopDCmotor"></block>
+		<block type="md_initENmotor"></block>
 <!--第三个图形块：编码电机下拉（下拉没有value），正反转（下拉），速度（输入,有value）-->
 		<block type="md_enmotor">
 			<value name="Speed">
@@ -25,17 +28,30 @@
 		</block>
 <!--第四个图形块：停止编码电机 下拉（下拉没有value）-->
 		<block type="md_stopENmotor"></block>
+		<block type="md_initstmotor">
+		<value name="Steps">
+				<shadow type="math_number">
+					<field name="NUM">100</field>
+				</shadow>
+			</value></block>
 <!--第五个图形块：步进电机下拉，步数value，方向下拉，方式下拉-->
 		<block type="md_stmotor">
 			<value name="Steps">
 				<shadow type="math_number">
 					<field name="NUM">100</field>
 				</shadow>
-			</value>			
+			</value>
+			<value name="Speed">
+				<shadow type="math_number">
+					<field name="NUM">60</field>
+				</shadow>
+			</value>
 		</block>
+		<block type="md_initRGB"></block>
 <!--第六个图形块：设置RGB灯颜色（下拉，红，绿，蓝，黄，紫，白，黑）-->
 		<block type="md_RGB"></block>
 <!--第七个图形块：播放声音 下拉-->
+<block type="md_initSounds"></block>
 		<block type= "md_playSounds"></block>
 <!--第八个图形块：超声波初始化-->
 		<block type= "md_initultrasonic"></block>
@@ -76,8 +92,7 @@
 		<block type="md_PS2init"></block>		
 <!--第十八个图形块：PS2键被按下（下拉）-->
 		<block type="md_WhichPS2KeyPressed"></block>
-<!--第十九个图形块：设置PS2摇杆震动值-->
-		<block type="md_setps2vibrate"></block>
+
 <!--第二十个图形块：ps2手柄按下 下拉无value-->
 		<block type="md_ps2keypress"></block>
 <!--第二十一个图形块：ps2手柄松开 下拉无value-->
@@ -87,11 +102,33 @@
 <!--第二十三个图形块：读取ps2状态-->
 		<block type="md_ps2status"></block>
 <!--第二十四个图形块：舵机 接口下拉  角度value-->
+<block type="md_initservo"></block>
 		<block type="md_servo">
 			<value name="angle">
 				<shadow type="math_number">
 					<field name="NUM">90</field>
 				</shadow>
 			</value>
-		</block>		
+		</block>
+<!--第二十五个图形块：舵机 接口下拉  角度value-->
+
+<block type="md_setColor">
+			<value name="red">
+				<shadow type="math_number">
+					<field name="NUM">100</field>
+				</shadow>
+			</value>
+			<value name="green">
+				<shadow type="math_number">
+					<field name="NUM">100</field>
+				</shadow>
+			</value>
+			<value name="blue">
+				<shadow type="math_number">
+					<field name="NUM">100</field>
+				</shadow>
+			</value>
+		</block>
+<!--读取舵机角度-->
+		<block type="md_readservo"></block>
 </category>
